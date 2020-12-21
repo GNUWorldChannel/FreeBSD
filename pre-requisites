@@ -250,3 +250,89 @@
 	 root@ircd:~ #
 	 
 #4 - Running oidentd
+		NOTE: Enable oidentd on you rc.conf file. The file is locate in: /etc/rc.conf (oidentd_enable="YES")
+		NOTE: Enable: oidentd_enable="YES" Disable: oidentd_enable="NO" Disable: this line is not add on the file!
+		NOTE: You can install oidentd with ports: /usr/ports/security/oidentd 
+		NOTE: We install it with PKG so oidentd is ready and running only need to activate!
+		NOTE: The file URL need to be in: /usr/local/etc/oidentd.conf | YOU can find a sample file:   /usr/local/etc/oidentd.conf.sample
+										
+	 
+	 root@ircd:~ # sysrc oidentd_enable="YES"
+	 root@ircd:~ # cp /usr/local/etc/oidentd.conf.sample /usr/local/etc/oidentd.conf
+	 NOTE: We CP the file! So you can have a backup copy! is not the same for MV command.
+	 
+	 
+	 NOTE: This add at the end of the file the line command we need to add.
+	 NOTE: Now we need to add oidentd.conf file on the system.
+	 
+	 EXAMPLE FILE: 
+
+			default {
+					default {
+							allow spoof
+							deny spoof_all
+							deny spoof_privport
+							allow random_numeric
+							allow numeric
+							allow hide
+					}
+			}
+
+			user root {
+					default {
+							force reply "UNKNOWN"
+					}
+			}
+
+			#user eggdrop {
+			#       default {
+			#               allow spoof
+			#               allow spoof_all
+			#               allow spoof_privport
+			#       }
+			#}
+
+	 
+		NOTE: Now we going to create the config file.
+		
+		root@ircd:~ # nano /usr/local/etc/oidentd.conf
+		NOTE: After we create all the stuff we need in the .conf file! we need to saved it!
+		NOTE: Now we going to add the url file on the /etc/rc.conf 
+		
+		root@ircd:~ # sysrc oidentd_conf="/usr/local/etc/oidentd.conf"
+		NOTE: This going to add on the rc.conf file what we need!
+		NOTE: Now you can check the file with a simple cat /etc/rc.conf
+		NOTE: The port 113 need to be open or oidentd not going to work well!
+		
+		root@ircd:~ # cat /etc/rc.conf
+		...
+		...
+		...
+		oidentd_enable="YES"
+        oidentd_conf="/usr/local/etc/oidentd.conf"
+		
+		
+		NOTE: Check if oidentd is ok.
+		
+		root@ircd:~ # /usr/local/etc/rc.d/oidentd rcvar
+		# oidentd
+		#
+		oidentd_enable="YES"
+		#   (default: "")
+
+
+    	NOTE: How to start oidentd 
+		
+		root@ircd:~ # /usr/local/etc/rc.d/oidentd start
+		
+		NOTE: You can check ports with TCPDUMP
+		
+		root@ircd:~ # tcpdump -Xn port 113
+		
+		NOTE: Cgheck if oidentd is running.
+		
+		root@ircd:~ # ps aux | grep oidentd
+		root    40610   0.0  0.1 11048  2500  -  Is   19:46     0:00.00 /usr/local/sbin/oidentd start
+		root    40641   0.0  0.1 11276  2736  0  S+   19:50     0:00.00 grep oidentd
+		root@ircd:~ #
+
