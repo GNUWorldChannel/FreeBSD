@@ -110,7 +110,8 @@
 	| NOTE: You never use FreeBSD Ports before? Make sure you know what to do here!
 	| NOTE: How to install a port: cd /usr/ports/NAMEPort/program ; make install clean
 	| NOTE: Example: root@ircd:~ # cd /usr/ports/devel/subversion | root@ircd:/usr/ports/devel/subversion # make install clean
-	| NOTE: If the ports tree is not available, or pkg is being used to manage packages, Subversion can be installed as a package: root@ircd:~ # pkg install subversion
+	| NOTE: If the ports tree is not available, or pkg is being used to manage packages, Subversion can be installed as a package: 
+	| NOTE:	pkg install subversion
 	| 
 	| ---> NOTE: To download a compressed snapshot of the Ports Collection into /var/db/portsnap
 	| root@ircd:~ # portsnap fetch
