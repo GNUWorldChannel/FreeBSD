@@ -140,7 +140,7 @@
 	 root@ircd:~ # nano /etc/pf.conf
 	 
 	 NOTE: EXAMPLE FILE LOOKS LIKE:
-	 ------------------------------
+	
 	 NOTE: SIMPLE Rules 
 	 
 	 
@@ -175,7 +175,7 @@
 			pass out proto { tcp udp } to port { 6667 6668 6669 7000 4400 113 53 443 80 22 25 110 }
 			pass inet proto icmp icmp-type $icmp_types
 			
-     ------------------------------
+     
 	 NOTE: Save file went you finish edition.
 	 
 	 NOTE: Testing Your Preliminary Ruleset
