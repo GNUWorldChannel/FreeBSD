@@ -10,3 +10,5 @@ TEST OS: FreeBSD 12.1-RELEASE
 #3 Install GNUWorld : GNUWorld Third Step!
 
 #4 Install CService-Web : CService Web Last Step!
+
+NOTE: We are working in this last guide! Is NOT Finish! Thanks!
