@@ -1,0 +1,134 @@
+ ____  ____  _____      ____  _____ ___  _   _ ___ ____ ___ _____ _____ ____
+|  _ \|  _ \| ____|    |  _ \| ____/ _ \| | | |_ _/ ___|_ _|_   _| ____/ ___|
+| |_) | |_) |  _| _____| |_) |  _|| | | | | | || |\___ \| |  | | |  _| \___ \
+|  __/|  _ <| |__|_____|  _ <| |__| |_| | |_| || | ___) | |  | | | |___ ___) |
+|_|   |_| \_\_____|    |_| \_\_____\__\_\\___/|___|____/___| |_| |_____|____/ #1
+
+-----------------------------------------------------------------------------------
+                    		FreeBSD 12.1-RELEASE
+                  [ by: ARI3L | rVn | y2k ] #arlington STAFF
+-----------------------------------------------------------------------------------
+
+#1 - Update OS and change Host.  (root) 
+
+	 NOTE: After change Hostname need to reboot the machine.
+	 NOTE: Need to set a subdomain on the server for make it work well.
+	 NOTE: Need a Static local IPV4 Need to check: (/etc/rc.conf)
+	 NOTE: This Config is only on IPv4 if you dont have a IPV6 Tunnel config.
+	 NOTE: Need to set hostname first! and went you reboot your system set IPV4 Static IP.
+
+	root@ircd:~ # pkg updade
+	root@ircd:~ # pkg upgrade
+	
+	NOTE: In FreeBSD you can use editor ( ee ) but in this case we going to use nano.
+	NOTE: If you are familiar with ( ee ) just jump this step.
+	NOTE: ( ee ) Save File: Press: ESC + a + a
+	NOTE: ( ee ) PRESS : ESC to see Menu.
+	
+	root@ircd:~ # pkg install -y nano
+	
+	root@ircd:~ # grep hostname /etc/rc.conf
+	
+	NOTE: Need to use a subdomain like the one in the example.
+	NOTE: You can edite this file in line 1. hostname="ircd.undernet.org"
+	
+	root@ircd:~ #  nano /etc/rc.conf
+	
+	NOTE: This show you the hostname you got.
+	
+	root@ircd:~ # hostname
+	
+	NOTE: This is how you can set the subdomain
+	
+	root@ircd:~ # hostname ircd.undernet.org
+	root@ircd:~ # echo "\"ircd.undernet.org\"" >>  /etc/rc.conf
+	
+	NOTE: If you want to work with a user like a root with (sudo) privilegie.
+	NOTE: If you got all set with root + user. Jump this step.
+	
+	root@ircd:~ # pw usermod YOUR-Username -G wheel
+	
+	NOTE: If you change your hostname correctly! you need to reboot your system for take all change.
+	
+	root@ircd:~ # reboot
+	
+	NOTE: Now we can edit rc.conf for set Static IPV4.
+	NOTE: Remember! you can use ( ee ) for edite files.
+	NOTE: We install nano because we like it! :)
+
+	NOTE: You need to edit again /etc/rc.conf this time for set static IP.
+	
+	root@ircd:~ # nano /etc/rc.conf
+	
+	NOTE: EXAMPLE File!
+	NOTE: Edit your file how you need it and save it. (CTRL + X + Intro)
+	
+		hostname="ircd.undernet.org"
+		ifconfig_em0="inet 192.168.1.137 netmask 255.255.255.0" defaultrouter="192.168.1.1"
+		ifconfig_em0_ipv6="inet6 accept_rtadv"
+		sshd_enable="YES"
+		# Set dumpdev to "AUTO" to enable crash dumps, "NO" to disable
+		dumpdev="AUTO"
+		
+	NOTE: Now you can see the info with ifconfig
+	
+	root@ircd:~ # ifconfig em0
+	
+		em0: flags=8843 metric 0 mtu 1500
+		options=81009b
+		ether 08:00:27:32:00:0a
+		inet6 fe80::a00:27ff:fe32:a%em0 prefixlen 64 scopeid 0x1
+		inet6 2607:fea8:4de0:b900:a00:27ff:fe32:a prefixlen 64 autoconf
+		inet 192.168.1.137 netmask 0xffffff00 broadcast 10.0.0.255
+		media: Ethernet autoselect (1000baseT )
+		status: active
+		nd6 options=23
+		
+	root@ircd:~ #
+	
+	 root@ircd:~# ifconfig | grep inet
+        inet 192.168.1.137 netmask 0xffffff00 broadcast 192.168.1.255
+        inet6 ::1 prefixlen 128
+        inet6 fe80::1%lo0 prefixlen 64 scopeid 0x2
+        inet 127.0.0.1 netmask 0xff000000
+	 root@ircd:~#
+
+	 root@ircd:~# ifconfig | grep ether
+	 ether 08:00:27:80:b9:d2
+	 root@ircd:~#
+	 
+	-----------------
+	
+	NOTE: If the dhclient is used to set the hostname via DHCP, the hostname variable should be set to an empty string
+	NOTE: Apply your new network settings.
+	
+	root@ircd:~ # /etc/netstart
+	root@ircd:~ # /etc/rc.d/netif restart && /etc/rc.d/routing restart
+	
+	
+#2 - Install ( git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx )
+	 NOTE: Now we going to install few packets we need.
+	
+	root@ircd:~ # pkg install -y git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx
+	
+	| NOTE: If you are familiar with ports in FreeBSD do this step. This take some minutes...
+	| NOTE: You never use FreeBSD Ports before? Make sure you know what to do here!
+	| NOTE: How to install a port: cd /usr/ports/NAMEPort/program ; make install clean
+	| NOTE: Example: root@ircd:~ # cd /usr/ports/devel/subversion | root@ircd:/usr/ports/devel/subversion # make install clean
+	| NOTE: If the ports tree is not available, or pkg is being used to manage packages, Subversion can be installed as a package: root@ircd:~ # pkg install subversion
+	| 
+	| ---> NOTE: To download a compressed snapshot of the Ports Collection into /var/db/portsnap
+	| root@ircd:~ # portsnap fetch
+	| 
+	| ---> NOTE: When running Portsnap for the first time, extract the snapshot into /usr/ports
+	| root@ircd:~ # portsnap extract
+	| 
+	| ---> NOTE: After the first use of Portsnap has been completed as shown above, /usr/ports can be updated as needed by running
+	| root@ircd:~ # portsnap fetch
+	| root@ircd:~ # portsnap update
+	| 
+	| ---> NOTE: When using fetch, the extract or the update operation may be run consecutively, like so.
+	| root@ircd:~ # portsnap fetch update
+	  
+	 
+#3 - How To Configure Firewall
