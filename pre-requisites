@@ -127,3 +127,126 @@
 	| root@ircd:~ # portsnap fetch update
 	  
 #3 - How To Configure Firewall
+
+     NOTE: FreeBSD 12.1 Got diferent firewall (IPFW - PF - IPF)
+	 NOTE: FreeBSD can work with IPTables too. We going to work with PF. Port Filter.
+	 NOTE: If you got configure other firewall for your server! you need to open ports. You can have only one firewall running.
+	 NOTE: FIRST NEED TO CONFIGURE PF AND OPEN PORTS. NO ACTIVATE THE FIREWALL.
+	 NOTE: Port need: 6667 to 7000 , 4400 , 113 , 53 , 443 , 80 , 22 , 25 , 110	 
+	
+	 NOTE: Create your /etc/pf.conf file 
+	 NOTE: Use (nano) or (ee) 
+	 
+	 root@ircd:~ # nano /etc/pf.conf
+	 
+	 NOTE: EXAMPLE FILE LOOKS LIKE:
+	 ------------------------------
+	 NOTE: SIMPLE Rules 
+	 
+	 
+			set skip on lo0
+			block all
+			pass in proto tcp to port { 22 }
+			pass out proto { tcp udp } to port { 6667 6668 6669 7000 4400 113 53 443 80 22 25 110 }
+			pass out inet proto icmp icmp-type { echoreq }
+
+
+
+
+	NOTE: FULL BASE Ruleset
+	
+			vtnet0 = "vtnet0"
+			icmp_types = "{ echoreq unreach }"
+			table <bruteforce> persist
+			table <rfc6890> { 0.0.0.0/8 10.0.0.0/8 100.64.0.0/10 127.0.0.0/8 169.254.0.0/16          \
+							  172.16.0.0/12 192.0.0.0/24 192.0.0.0/29 192.0.2.0/24 192.88.99.0/24    \
+							  192.168.0.0/16 198.18.0.0/15 198.51.100.0/24 203.0.113.0/24            \
+							  240.0.0.0/4 255.255.255.255/32 }
+
+			set skip on lo0
+			scrub in all fragment reassemble max-mss 1440
+			antispoof quick for $vtnet0
+			block in quick on $vtnet0 from <rfc6890>
+			block return out quick on egress to <rfc6890>
+			block all
+			pass in on $vtnet0 proto tcp to port { 22 } \
+				keep state (max-src-conn 15, max-src-conn-rate 3/1, \
+					overload <bruteforce> flush global)
+			pass out proto { tcp udp } to port { 6667 6668 6669 7000 4400 113 53 443 80 22 25 110 }
+			pass inet proto icmp icmp-type $icmp_types
+			
+     ------------------------------
+	 NOTE: Save file went you finish edition.
+	 
+	 NOTE: Testing Your Preliminary Ruleset
+	 
+	 root@ircd:~ # sysrc pf_enable="YES"
+	 root@ircd:~ # sysrc pflog_enable="YES"
+	 
+	 NOTE: Verify these changes by printing the contents of your /etc/rc.conf
+	 
+	 root@ircd:~ # cat /etc/rc.conf
+	 NOTE: You going to see pf_enable="YES" pflog_enable="YES" at the bottom of this file config.
+	 
+	 NOTE: Now you need to reboot your system.
+	 
+	 root@ircd:~ # reboot
+	 
+	 NOTE: After reboot you need to load the ruleset with pfctl.
+	 
+	 root@ircd:~ # pfctl -f /etc/pf.conf
+	 
+	 NOTE: If there are no errors or messages, it means your ruleset has no errors and the firewall is active.
+	 NOTE: For good measure, reboot your server again
+	 
+	 root@ircd:~ # reboot
+	 
+	 NOTE: After reboot we going to check firewall (PF)
+	 NOTE: PF is now your acting firewall. You can ensure that it is running by accessing some data with the pfctl utility.
+	 NOTE: Let’s view some statistics and counters with pfctl -si
+	 
+	 NOTE: You pass the -si flags, which stand for show info. 
+	 NOTE: This is one of the many filter parameter combinations you can use with pfctl to parse data about your firewall activity.
+	 NOTE: You will see the following tabular data (the values will vary from machine-to-machine)
+	 NOTE: This is a basic config for (PF) if you want some in particular make sure you know how to!
+	 
+	 root@ircd:~ # pfctl -si
+		Status: Enabled for 0 days 00:05:05           Debug: Urgent
+
+		State Table                          Total             Rate
+		  current entries                        1
+		  searches                             455            1.5/s
+		  inserts                               56            0.2/s
+		  removals                              55            0.2/s
+		Counters
+		  match                                162            0.5/s
+		  bad-offset                             0            0.0/s
+		  fragment                               0            0.0/s
+		  short                                  0            0.0/s
+		  normalize                              0            0.0/s
+		  memory                                 0            0.0/s
+		  bad-timestamp                          0            0.0/s
+		  congestion                             0            0.0/s
+		  ip-option                              0            0.0/s
+		  proto-cksum                            0            0.0/s
+		  state-mismatch                         0            0.0/s
+		  state-insert                           0            0.0/s
+		  state-limit                            0            0.0/s
+		  src-limit                              0            0.0/s
+		  synproxy                               0            0.0/s
+		  map-failed                             0            0.0/s
+	 root@ircd:~ #
+	 
+	 NOTE: Make sure you can access PKG repo.
+	 
+	 root@ircd:~ # pkg upgrade
+	 Updating FreeBSD repository catalogue...
+	 FreeBSD repository is up to date.
+	 All repositories are up to date.
+	 Checking for upgrades (1 candidates): 100%
+	 Processing candidates (1 candidates): 100%
+	 Checking integrity... done (0 conflicting)
+	 Your packages are up to date.
+	 root@ircd:~ #
+	 
+#4 - Running oidentd
