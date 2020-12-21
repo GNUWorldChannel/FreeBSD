@@ -1,0 +1,102 @@
+
+                       _                ____
+                      (_)_ __ ___ _   _|___ \
+                      | | '__/ __| | | | __) |
+                      | | | | (__| |_| |/ __/
+                    The |_|_|  \___|\__,_|_____| Guide #2
+-----------------------------------------------------------------------------------
+                    		FreeBSD 12.1-RELEASE
+                  [ by: ARI3L | rVn | y2k ] #arlington STAFF
+-----------------------------------------------------------------------------------
+	
+#1 - Add user GNUWORLD. + Password ask.
+
+
+		root@ircd:~ # adduser 
+		Username: gnuworld
+		Full name: gnuworld
+		Uid (Leave empty for default):
+		Login group [gnuworld]:
+		Login group is gnuworld. Invite gnuworld into other groups? []:
+		Login class [default]:
+		Shell (sh csh tcsh bash rbash git-shell nologin) [sh]: sh
+		Home directory [/home/gnuworld]:
+		Home directory permissions (Leave empty for default):
+		Use password-based authentication? [yes]: yes
+		Use an empty password? (yes/no) [no]: no
+		Use a random password? (yes/no) [no]: no
+		Enter password:
+		Enter password again:
+		Lock out the account after creation? [no]: no
+		Username   : gnuworld
+		Password   : *****
+		Full Name  : gnuworld
+		Uid        : 1002
+		Class      :
+		Groups     : gnuworld
+		Home       : /home/gnuworld
+		Home Mode  :
+		Shell      : /bin/sh
+		Locked     : no
+		OK? (yes/no): yes
+		adduser: INFO: Successfully added (gnuworld) to the user database.
+		Add another user? (yes/no): no
+		Goodbye!
+		root@ircd:~ #
+	
+#2 - Enter in GNUWORLD USER
+	NOTE: [ $ ] is a simbol for USER account! if you see this simbol means you are in a user not a root account!
+	root@ircd:~# su - gnuworld
+	$ pwd
+	/home/gnuworld <-- We are in gnuworld user home folder.
+	$
+	
+#3 - Clone ircu2 from Github.
+
+	$ git clone https://github.com/UndernetIRC/ircu2.git
+	$ cd ircu2/
+	$ chmod +x configure
+	$ ./configure --help (SEE the help for all config. This is a basic setup.)
+	$ ./configure --prefix=$HOME --with-maxcon=1024  NOTE:( Maximum number of connections server will accept. --with-maxcon=1024 )	
+	
+	Note if you have Raspberry pi 4 use this flag ./configure --build=unknown-unknown-linux --prefix=$HOME --with-maxcon=1024
+	
+	$ make
+	$ make install
+
+#4 - Config Files for IRCD.
+	 NOTE: Need to edit ircd.conf so you can run ircd.
+
+	$ cd ..
+	$ ls
+	bin  ircu2  lib
+	----------------------
+	$ cd lib
+	$ ls 
+	example.conf
+	----------------------
+	$ cp example.conf ircd.conf
+	$ echo "Hello World" > ircd.motd
+	----------------------
+	$ ls
+	example.conf  ircd.conf  ircd.motd
+	----------------------
+	$ cd ..
+	----------------------
+	$ ls
+	bin  ircu2  lib
+	----------------------
+	$ cd bin
+	----------------------
+	$ ls	
+	convert-conf  ircd  ircd.202012212000  umkpasswd
+	----------------------
+	$ ./ircd
+	$
+	----------------------
+	$ ps x | grep ircd
+	---------------------
+#5 - Now we can go to mIRC. 
+	
+	/server ServerName:Port
+	/server IP:Port
