@@ -73,7 +73,6 @@
 	NOTE: Now you can see the info with ifconfig
 	
 	root@ircd:~ # ifconfig em0
-	
 		em0: flags=8843 metric 0 mtu 1500
 		options=81009b
 		ether 08:00:27:32:00:0a
@@ -83,28 +82,24 @@
 		media: Ethernet autoselect (1000baseT )
 		status: active
 		nd6 options=23
-		
 	root@ircd:~ #
 	
-	 root@ircd:~# ifconfig | grep inet
-        inet 192.168.1.137 netmask 0xffffff00 broadcast 192.168.1.255
-        inet6 ::1 prefixlen 128
-        inet6 fe80::1%lo0 prefixlen 64 scopeid 0x2
-        inet 127.0.0.1 netmask 0xff000000
-	 root@ircd:~#
+	root@ircd:~# ifconfig | grep inet
+		inet 192.168.1.137 netmask 0xffffff00 broadcast 192.168.1.255
+		inet6 ::1 prefixlen 128
+		inet6 fe80::1%lo0 prefixlen 64 scopeid 0x2
+		inet 127.0.0.1 netmask 0xff000000
+	root@ircd:~#
 
-	 root@ircd:~# ifconfig | grep ether
-	 ether 08:00:27:80:b9:d2
-	 root@ircd:~#
-	 
-	-----------------
+	root@ircd:~# ifconfig | grep ether
+		ether 08:00:27:80:b9:d2
+	root@ircd:~#
 	
 	NOTE: If the dhclient is used to set the hostname via DHCP, the hostname variable should be set to an empty string
 	NOTE: Apply your new network settings.
 	
 	root@ircd:~ # /etc/netstart
 	root@ircd:~ # /etc/rc.d/netif restart && /etc/rc.d/routing restart
-	
 	
 #2 - Install ( git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx )
 	 NOTE: Now we going to install few packets we need.
@@ -130,5 +125,4 @@
 	| ---> NOTE: When using fetch, the extract or the update operation may be run consecutively, like so.
 	| root@ircd:~ # portsnap fetch update
 	  
-	 
 #3 - How To Configure Firewall
