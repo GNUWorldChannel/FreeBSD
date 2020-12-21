@@ -59,8 +59,6 @@
 	$ ./configure --help (SEE the help for all config. This is a basic setup.)
 	$ ./configure --prefix=$HOME --with-maxcon=1024  NOTE:( Maximum number of connections server will accept. --with-maxcon=1024 )	
 	
-	Note if you have Raspberry pi 4 use this flag ./configure --build=unknown-unknown-linux --prefix=$HOME --with-maxcon=1024
-	
 	$ make
 	$ make install
 
