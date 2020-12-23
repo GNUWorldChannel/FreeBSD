@@ -101,10 +101,10 @@
 	root@ircd:~ # /etc/netstart
 	root@ircd:~ # /etc/rc.d/netif restart && /etc/rc.d/routing restart
 	
-#2 - Install ( git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx )
+#2 - Install ( git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx gmake )
 	 NOTE: Now we going to install few packets we need.
 	
-	root@ircd:~ # pkg install -y git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx
+	root@ircd:~ # pkg install -y git wget flex byacc screen zip gcc oidentd automake tcllib postgresql-libpqxx gmake
 	
 	| NOTE: If you are familiar with ports in FreeBSD do this step. This take some minutes...
 	| NOTE: You never use FreeBSD Ports before? Make sure you know what to do here!
@@ -189,17 +189,11 @@
 	 NOTE: You going to see pf_enable="YES" pflog_enable="YES" at the bottom of this file config.
 	 
 	 NOTE: Now you need to reboot your system.
-	 
-	 root@ircd:~ # reboot
-	 
 	 NOTE: After reboot you need to load the ruleset with pfctl.
-	 
-	 root@ircd:~ # pfctl -f /etc/pf.conf
-	 
 	 NOTE: If there are no errors or messages, it means your ruleset has no errors and the firewall is active.
-	 NOTE: For good measure, reboot your server again
 	 
 	 root@ircd:~ # reboot
+	 root@ircd:~ # pfctl -f /etc/pf.conf
 	 
 	 NOTE: After reboot we going to check firewall (PF)
 	 NOTE: PF is now your acting firewall. You can ensure that it is running by accessing some data with the pfctl utility.
