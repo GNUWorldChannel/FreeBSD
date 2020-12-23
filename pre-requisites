@@ -41,8 +41,7 @@
 	NOTE: This is how you can set the subdomain
 	
 	root@ircd:~ # hostname ircd.undernet.org
-	root@ircd:~ # echo "\"ircd.undernet.org\"" >>  /etc/rc.conf
-	
+		
 	NOTE: If you want to work with a user like a root with (sudo) privilegie.
 	NOTE: If you got all set with root + user. Jump this step.
 	
