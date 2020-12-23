@@ -39,8 +39,8 @@
 	 root@ircd:~ # cd postgresql-10.2/
 	 root@ircd:~/postgresql-10.2 #
 	 root@ircd:~/postgresql-10.2 # chmod +x configure
-	 root@ircd:~/postgresql-10.2 # ./configure --with-CXX --enable-multibyte --with-tclconfig=/usr/lib --without-tk --without-readline --without-zlib
-	 root@ircd:~/postgresql-10.2 # make
+	 root@ircd:~/postgresql-10.2 # ./configure --with-tclconfig=/usr/lib --without-readline --without-zlib
+	 root@ircd:~/postgresql-10.2 # gmake
 	 root@ircd:~/postgresql-10.2 # make install
 	 root@ircd:~/postgresql-10.2 # nano /etc/ld.so.conf
 	 root@ircd:~/postgresql-10.2 # cd
