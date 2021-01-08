@@ -23,12 +23,12 @@
 	 root@ircd:~ # wget https://github.com/GNUWorldChannel/FreeBSD/raw/main/tcl8.6.10-src.tar.gz
 	 root@ircd:~ # tar -zxvf tcl8.6.10-src.tar.gz
 	 root@ircd:~ # cd tcl8.6.10/unix/	
-	 [root@irc:~/unix]# chmod +x configure
-	 [root@irc:~/unix]# ./configure
-	 [root@irc:~/unix]# make
-	 [root@irc:~/unix]# make install
-	 [root@irc:~/unix]# cd ..
-	 [root@irc:~/tcl8.4.13-src]# cd ..
+	 root@irc:~/unix # chmod +x configure
+	 root@irc:~/unix # ./configure
+	 root@irc:~/unix # make
+	 root@irc:~/unix # make install
+	 root@irc:~/unix # cd ..
+	 root@irc:~/tcl8.4.13-src]# cd ..
 	 root@ircd:~ # ln -s /usr/local/lib/tclConfig.sh /usr/lib
 	 
 #3 - Install POSTGRESQL for sql manipulation.
