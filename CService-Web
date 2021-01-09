@@ -13,3 +13,129 @@ or gives you problems, you should ask the official Undernet network coders,
 because we can only help you install the site, but never modify the code that they wrote.
 --------------------------------------------------------------------------
 #1. Prepare the system by installing the necessary components.
+
+	root@ircd:~ # pkg install -y apache24
+	root@ircd:~ # service apache24 onestatus
+	root@ircd:~ # service apache24 enable
+	
+	
+#2. Prepare your Vhost in apache24
+
+    root@ircd:~ #  cd /usr/local/etc/apache24/
+    root@ircd:/usr/local/etc/apache24 #
+	
+	NOTE: Create a backup from your httpd.conf file
+    root@ircd:/usr/local/etc/apache24 # cp httpd.conf httpd.conf.backup
+    root@ircd:/usr/local/etc/apache24 # nano httpd.conf
+	
+	NOTE: ServerName gives the name and port that the server uses to identify itself.
+    NOTE: This can often be determined automatically, but we recommend you specify
+    NOTE: it explicitly to prevent problems during startup.
+    NOTE: If your host doesn't have a registered DNS name, enter its IP address here.
+
+    ServerName ircd.undernet.org:80
+	
+    NOTE: Save your file!
+	NOTE: Restart apache24 from your box
+	
+	root@ircd:/usr/local/etc/apache24 # service apache24 reload
+	
+	NOTE: Now we going to edit the vhost in the same httpd.conf file you got in location: /usr/local/etc/apache24
+	NOTE: Go to line 508 #Virtual host. this going to show in line 509: #Include etc/apache24/extra/httpd-vhosts.conf
+	NOTE: You need to remove the #
+	
+	# Virtual hosts
+    Include etc/apache24/extra/httpd-vhosts.conf
+	
+	
+	NOTE: Now we going to edit the file: /usr/local/etc/apache24/extra/httpd-vhosts.conf
+	
+	root@ircd:/usr/local/etc/apache24 #  nano /usr/local/etc/apache24/extra/httpd-vhosts.conf
+	
+	NOTE: This is a basic config you need to make your ownd!
+	NOTE: Example file to add in httpd-vhosts.conf at the end.
+	
+	EXAMPLE:-------------------------
+	
+		<VirtualHost *:80>
+		  ServerName ircd.undernet.org
+		  ServerAdmin gnuworld@undernet.org
+		  DocumentRoot "/usr/local/www/apache24/data/cservice-web"
+		  <Directory /usr/local/www/apache24/data/cservice-web>
+			Require all granted
+		  </Directory>
+		  ErrorLog "/var/log/ircd.undernet.org-error_log"
+		  CustomLog "/var/log/ircd.undernet.org-access_log" common
+	</VirtualHost>
+	
+	END EXAMPLE:-------------------------
+	
+	NOTE: Edit your file and save it!
+	
+	
+	NOTE: Now we going to install PHP 7.4 and some library we need in FreeBSD 12.1 
+			
+	root@ircd:~ # pkg install php74 php74-mbstring php74-zlib php74-curl php74-gd php74-json php74-pgsql php74-xmlrpc php74-opcache mod_php74 php74-composer
+	
+	root@ircd:~ # php -v
+	PHP 7.4.13 (cli) (built: Jan  5 2021 01:35:31) ( NTS )
+	Copyright (c) The PHP Group
+	Zend Engine v3.4.0, Copyright (c) Zend Technologies
+	root@ircd:~ #
+
+
+	NOTE: Apache24 by default read the follow location: /usr/local/etc/apache24/Includes/
+	NOTE: Now we going to create a new file name php.conf in this dir.
+	NOTE: Your file going to look some like this:
+	
+	EXAMPLE: -----------------------
+	
+	<IfModule dir_module>
+    DirectoryIndex index.php
+	</IfModule>
+	<FilesMatch "\.php$">
+			SetHandler application/x-httpd-php
+	</FilesMatch>
+	<FilesMatch "\.phps$">
+			SetHandler application/x-httpd-php-source
+	</FilesMatch>
+	
+	
+	END EXAMPLE: -----------------------
+	
+	NOTE: Make change and save the file.
+	NOTE: Now we need to load the new config we need to restart apache24
+	
+	root@ircd:~ # service apache24 restart
+	
+	
+	NOTE: In FreeBSD 12.1 is not a php.ini by default so we need to create in the next location
+	
+	root@ircd:~ # cp /usr/local/etc/php.ini-production /usr/local/etc/php.ini
+	
+	NOTE: Now we can edit our php.ini file.
+	
+	root@ircd:~ # nano /usr/local/etc/php.ini 
+	NOW: Go to the line 187 and change short_open_tag (from Off to On)
+	Save the file with (CTRL+O)
+
+	root@ircd:~ # service apache24 restart
+	
+
+	root@ircd:~ # curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
+
+#3. Now We going to download the GNUWorld cservice-web !
+	
+	 root@irc ~ #
+	 root@irc ~ # su - gnuworld
+	 $ 
+	 $ git clone https://github.com/UndernetIRC/cservice-web/
+	 $ cd cservice-web
+	 $ composer install
+	 $ cd php_includes
+	 $ cp config.inc.dist config.inc
+	 EDIT: config.inc (With your own values)
+	 
+	 $ cd ..
+	 $ cd ..
+	 $
