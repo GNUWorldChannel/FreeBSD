@@ -325,7 +325,7 @@
 		NOTE: Cgheck if oidentd is running.
 		
 		root@ircd:~ # ps aux | grep oidentd
-		root    40610   0.0  0.1 11048  2500  -  Is   19:46     0:00.00 /usr/local/sbin/oidentd start
-		root    40641   0.0  0.1 11276  2736  0  S+   19:50     0:00.00 grep oidentd
+                root    659   0.0  0.0 11048 2336  -  Is   13:07   0:00.00 /usr/local/sbin/oidentd -C /usr/local/etc/oidentd.conf
+                root    836   0.0  0.0 11276 2576  0  S+   13:11   0:00.00 grep oidentd
 		root@ircd:~ #
 
