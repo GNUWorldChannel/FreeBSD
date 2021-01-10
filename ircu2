@@ -75,6 +75,9 @@
 	----------------------
 	$ cp example.conf ircd.conf
 	$ echo "Hello World" > ircd.motd
+	
+	NOTE: Now Edit ircd.conf how you need and saved it!
+	$ nano ircd.conf
 	----------------------
 	$ ls
 	example.conf  ircd.conf  ircd.motd
