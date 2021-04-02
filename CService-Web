@@ -16,6 +16,7 @@ because we can only help you install the site, but never modify the code that th
 
 	root@ircd:~ # pkg install -y apache24
 	root@ircd:~ # service apache24 onestatus
+	root@ircd:~ # sysrc apache24_enable="YES"
 	root@ircd:~ # service apache24 enable
 	
 	
@@ -24,28 +25,30 @@ because we can only help you install the site, but never modify the code that th
     root@ircd:~ #  cd /usr/local/etc/apache24/
     root@ircd:/usr/local/etc/apache24 #
 	
-	NOTE: Create a backup from your httpd.conf file
+    NOTE: Create a backup from your httpd.conf file
     root@ircd:/usr/local/etc/apache24 # cp httpd.conf httpd.conf.backup
     root@ircd:/usr/local/etc/apache24 # nano httpd.conf
 	
-	NOTE: ServerName gives the name and port that the server uses to identify itself.
+    NOTE: ServerName gives the name and port that the server uses to identify itself.
     NOTE: This can often be determined automatically, but we recommend you specify
     NOTE: it explicitly to prevent problems during startup.
     NOTE: If your host doesn't have a registered DNS name, enter its IP address here.
 
-    ServerName ircd.undernet.org:80
+    ServerAdmin y2k@undernet.org
+    ServerName www.undernet.org:80
+    
 	
-    NOTE: Save your file!
-	NOTE: Restart apache24 from your box
+     NOTE: Save your file!
+     NOTE: Restart apache24 from your box
 	
-	root@ircd:/usr/local/etc/apache24 # service apache24 reload
+      root@ircd:/usr/local/etc/apache24 # service apache24 reload
 	
-	NOTE: Now we going to edit the vhost in the same httpd.conf file you got in location: /usr/local/etc/apache24
-	NOTE: Go to line 508 #Virtual host. this going to show in line 509: #Include etc/apache24/extra/httpd-vhosts.conf
-	NOTE: You need to remove the #
+      NOTE: Now we going to edit the vhost in the same httpd.conf file you got in location: /usr/local/etc/apache24
+      NOTE: Go to line 508 #Virtual host. this going to show in line 509: #Include etc/apache24/extra/httpd-vhosts.conf
+      NOTE: You need to remove the #
 	
 	# Virtual hosts
-    Include etc/apache24/extra/httpd-vhosts.conf
+          Include etc/apache24/extra/httpd-vhosts.conf
 	
 	
 	NOTE: Now we going to edit the file: /usr/local/etc/apache24/extra/httpd-vhosts.conf
@@ -57,15 +60,15 @@ because we can only help you install the site, but never modify the code that th
 	
 	EXAMPLE:-------------------------
 	
-		<VirtualHost *:80>
-		  ServerName ircd.undernet.org
-		  ServerAdmin gnuworld@undernet.org
-		  DocumentRoot "/usr/local/www/apache24/data/cservice-web"
-		  <Directory /usr/local/www/apache24/data/cservice-web>
-			Require all granted
-		  </Directory>
-		  ErrorLog "/var/log/ircd.undernet.org-error_log"
-		  CustomLog "/var/log/ircd.undernet.org-access_log" common
+    <VirtualHost *:80>
+	   ServerName ircd.undernet.org
+	   ServerAdmin gnuworld@undernet.org
+	   DocumentRoot "/usr/local/www/apache24/data/cservice-web"
+	   <Directory /usr/local/www/apache24/data/cservice-web>
+	 	Require all granted
+	   </Directory>
+	      ErrorLog "/var/log/ircd.undernet.org-error_log"
+	      CustomLog "/var/log/ircd.undernet.org-access_log" common
 	</VirtualHost>
 	
 	END EXAMPLE:-------------------------
@@ -140,4 +143,21 @@ because we can only help you install the site, but never modify the code that th
 	 $ cd ..
 	 $
 
-#4. UPLOADING! coming soon!
+#4. Now we going to create a link to the apache24 VirtualHost
+
+	 root@irc ~ # cd /usr/local/www/apache24/data
+	 root@irc:/usr/local/www/apache24/data #
+	 root@irc:/usr/local/www/apache24/data # ls
+	 root@unixfool:/usr/local/www/apache24/data # ls
+           index.html
+	 
+	 NOTE: This is where the default index.html from apache24 is.
+	 NOTE: Now we need to create a symbolic link to the CService Web.
+	 
+	 root@unixfool:/usr/local/www/apache24/data # ln -s /home/gnuworld/cservice-web/docs/gnuworld
+	 root@unixfool:/usr/local/www/apache24/data # mv gnuworld cservice-web
+	 
+	 NOTE: All done!! :) CService Web is working!
+	 NOTE: Now you can go to your explorer and run you http://domain.com to see the website!! :)
+	 
+ 
