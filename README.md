@@ -1,7 +1,8 @@
 # FreeBSD
+
 IRCD + GNUWorld + CService-Web
 
-TEST OS: FreeBSD 12.1-RELEASE
+TEST OS: FreeBSD 13.0-RC4
 
 #1 PREPARE Your System : Pre-Requisites first Step!
 
@@ -10,5 +11,3 @@ TEST OS: FreeBSD 12.1-RELEASE
 #3 Install GNUWorld : GNUWorld Third Step!
 
 #4 Install CService-Web : CService Web Last Step!
-
-NOTE: We are working in this last guide! Is NOT Finish! Thanks!
