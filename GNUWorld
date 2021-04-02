@@ -174,7 +174,7 @@
 	 $ /usr/local/pgsql/bin/psql ccontrol < ccontrol.sql  
  	 $ /usr/local/pgsql/bin/psql ccontrol < ccontrol.help.sql  
  	 $ /usr/local/pgsql/bin/psql ccontrol < ccontrol.addme.sql  
-   $ /usr/local/pgsql/bin/psql ccontrol < ccontrol.commands.sql
+         $ /usr/local/pgsql/bin/psql ccontrol < ccontrol.commands.sql
 	 
 	 
 	 NOTE: Now we going to move to other directory url.
