@@ -132,12 +132,15 @@ because we can only help you install the site, but never modify the code that th
 	 root@irc ~ #
 	 root@irc ~ # su - gnuworld
 	 $ 
-	 $ git clone https://github.com/UndernetIRC/cservice-web/
+	 $ git clone https://github.com/GNUWorldChannel/cservice-web-php7.4.git
+	 $ mv cservice-web-php7.4 cservice-web
 	 $ cd cservice-web
 	 $ composer install
 	 $ cd php_includes
 	 $ cp config.inc.dist config.inc
-	 EDIT: config.inc (With your own values)
+	 $ cp cmaster.inc.dist cmaster.inc
+	 $ cp blackhole.inc.dist blackhole.inc
+	 EDIT: inc files (With your own values)
 	 
 	 $ cd ..
 	 $ cd ..
