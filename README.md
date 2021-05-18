@@ -2,7 +2,7 @@
 
 IRCD + GNUWorld + CService-Web
 
-TEST OS: FreeBSD 13.0-RC4
+TEST OS: FreeBSD 13.0-RELEASE
 
 #1 PREPARE Your System : Pre-Requisites first Step!
 
