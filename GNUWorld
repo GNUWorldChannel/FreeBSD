@@ -20,7 +20,7 @@
 #2 - If you dont got install TCL this is the next step.
 	 NOTE: You got install tcl-devel on pre-requisites, but dont jump this step!!
 
-	 root@ircd:~ # wget https://github.com/GNUWorldChannel/FreeBSD/raw/main/tcl8.6.10-src.tar.gz
+	 root@ircd:~ # wget git clone https://github.com/unixfool/tcl8.4.13-src.git
 	 root@ircd:~ # tar -zxvf tcl8.6.10-src.tar.gz
 	 root@ircd:~ # cd tcl8.6.10/unix/	
 	 root@irc:~/unix # chmod +x configure
